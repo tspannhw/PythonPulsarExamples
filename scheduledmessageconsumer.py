@@ -15,7 +15,7 @@ msgNum = 0
 currentMessage = ""
 topicName = "delayed-message"
 subscriptionName = "delayed-consumer"
-subscriptionName
+
 def current_milli_time():
     return round(time.time() * 1000)
 
