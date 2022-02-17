@@ -9,13 +9,16 @@ from pulsar.schema import *
 from pulsar import ConsumerType, InitialPosition
 
 # Reference https://pulsar.apache.org/api/python/2.9.0-SNAPSHOT/#pulsar.Client.subscribe
+# Test with command line bin/pulsar-client consume --regex 'persistent://public/default/dynamic-topic.*' -s all -n 0
+# Needs .*
 
-subscriptionName = 'fanout-sub-' + str(datetime.datetime.now())
-topicRegex = 'persistent://public/default/dynamic-topic-*'
+subscriptionName = 'fanout-sub-' + str(int(time.time()))
 
 client = pulsar.Client('pulsar://localhost:6650')
 
-consumer = client.subscribe(re.compile(topicRegex), subscriptionName, consumer_type=ConsumerType.Exclusive, initial_position=InitialPosition.Earliest,schema=schema.StringSchema())
+consumer = client.subscribe(re.compile('persistent://public/default/dynamic-topic.*'), subscriptionName, consumer_type=ConsumerType.Exclusive, initial_position=InitialPosition.Earliest,schema=schema.StringSchema())
+
+print (subscriptionName)
 
 while True:
     msg = consumer.receive()
